@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package' // Build your Java project using Maven
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test' // Run your Java tests using Maven
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn package' // Package your Java application using Maven
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Add your deployment steps here
+                // For example, deploy your application to a server or container orchestration platform
+            scp "F:\jenkins\Hello_World\myproject\target\myproject-1.0.jar" abyUser@linux-node:/home/abyUsr1
+            nohup 
+            }
+        }
+    }
+}
