@@ -1,14 +1,16 @@
 pipeline {
-    agent { 
+     agent { 
         node {
-            label 'docker-agent-java'
+            label 'jenkins-agent-goes-here'
             }
       }
-    triggers {
-        pollSCM '* * * * *'
-    }
-
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/Abyantra/jekins_hello_world.git' // Replace with your Git repository URL
+            }
+        }
+
         stage('Build') {
             steps {
                 sh 'mvn clean package' // Build your Java project using Maven
@@ -31,8 +33,20 @@ pipeline {
             steps {
                 // Add your deployment steps here
                 // For example, deploy your application to a server or container orchestration platform
-            
             }
+        }
+    }
+
+    post {
+        always {
+            // Clean up workspace and artifacts
+            cleanWs()
+        }
+        success {
+            // Optionally, perform additional actions on success
+        }
+        failure {
+            // Optionally, perform additional actions on failure
         }
     }
 }
